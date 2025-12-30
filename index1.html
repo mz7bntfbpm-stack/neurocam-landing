@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neuro-CAM | AI-Powered CAM Simulator</title>
+    <meta name="description" content="Stop Breaking Tools. Start Learning CNC. AI-gestützter CAM-Simulator mit Echtzeit-Validierung.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; line-height: 1.6; color: #1e293b; }
+        
+        .hero {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: white;
+            padding: 100px 20px;
+            text-align: center;
+            min-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #fff 0%, #0ea5e9 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero p { font-size: 1.4rem; color: #94a3b8; margin-bottom: 40px; max-width: 700px; margin-left: auto; margin-right: auto; }
+        
+        .btn {
+            padding: 18px 40px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s;
+            margin: 10px;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
+            color: white;
+            box-shadow: 0 10px 30px rgba(14, 165, 233, 0.3);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(14, 165, 233, 0.5);
+        }
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        .btn-secondary:hover { background: rgba(255, 255, 255, 0.2); transform: translateY(-2px); }
+        
+        .badge {
+            display: inline-block;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            font-size: 0.9rem;
+            color: #94a3b8;
+            margin-top: 20px;
+        }
+        
+        section { padding: 100px 20px; }
+        .section-title { font-size: 2.5rem; text-align: center; margin-bottom: 60px; font-weight: 700; }
+        
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px; max-width: 1200px; margin: 0 auto; }
+        
+        .card {
+            padding: 40px 30px;
+            background: #f8fafc;
+            border-radius: 16px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .card .icon { font-size: 3rem; margin-bottom: 20px; }
+        .card h3 { font-size: 1.5rem; margin-bottom: 15px; color: #0f172a; }
+        .card p { color: #64748b; }
+        
+        .solution {
+            background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
+            color: white;
+        }
+        .solution .section-title { color: white; }
+        .solution .card {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+        .solution .card:hover { background: rgba(255, 255, 255, 0.15); }
+        .solution .card p { color: rgba(255, 255, 255, 0.9); }
+        
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 0 auto 20px;
+        }
+        
+        .testimonials { background: #f8fafc; }
+        .testimonial {
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+        .testimonial:hover { transform: translateY(-5px); box-shadow: 0 10px 40px rgba(0,0,0,0.1); }
+        .testimonial-text { font-size: 1.1rem; font-style: italic; margin-bottom: 20px; color: #334155; }
+        .testimonial-author { color: #64748b; font-weight: 600; }
+        
+        .pricing {
+            background: linear-gradient(135deg, #10b981 0%, #0ea5e9 100%);
+            color: white;
+        }
+        .pricing .section-title { color: white; }
+        .pricing-card {
+            background: white;
+            padding: 50px 40px;
+            border-radius: 20px;
+            text-align: center;
+            color: #0f172a;
+        }
+        .pricing-card:hover { transform: translateY(-10px); }
+        .pricing-card h3 { font-size: 1.8rem; margin-bottom: 10px; }
+        .pricing-card .price { font-size: 2.5rem; font-weight: 700; color: #0ea5e9; margin: 20px 0; }
+        .pricing-card ul { list-style: none; text-align: left; margin: 30px 0; }
+        .pricing-card ul li { padding: 10px 0; }
+        .pricing-card ul li:before { content: "✓ "; color: #10b981; font-weight: 700; }
+        
+        .final-cta {
+            background: #0f172a;
+            color: white;
+            text-align: center;
+        }
+        .final-cta h2 { font-size: 3rem; margin-bottom: 30px; }
+        .final-cta p { font-size: 1.3rem; color: #94a3b8; margin-bottom: 40px; }
+        
+        footer {
+            background: #020617;
+            color: #64748b;
+            text-align: center;
+            padding: 40px 20px;
+        }
+        footer a { color: #94a3b8; text-decoration: none; margin: 0 15px; transition: color 0.3s; }
+        footer a:hover { color: #0ea5e9; }
+        
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .hero p { font-size: 1.2rem; }
+            .btn { width: 100%; max-width: 300px; }
+            .section-title { font-size: 2rem !important; }
+            .final-cta h2 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+<section class="hero">
+    <h1>Stop Breaking Tools.<br>Start Learning CNC.</h1>
+    <p>AI-gestützter CAM-Simulator, der deine Parameter validiert,<br>bevor du die Maschine berührst.</p>
+    <div>
+        <a href="https://cs7js8ple3tg.space.minimax.io/imax.io" class="btn btn-primary">Kostenlos testen</a>
+        <a href="#how" class="btn btn-secondary">Wie es funktioniert</a>
+    </div>
+    <div class="badge">✨ 100% Educational | Browser-basiert | Kein Signup</div>
+</section>
+
+<section style="background: white;">
+    <h2 class="section-title">Die CNC-Lernkurve ist teuer</h2>
+    <div class="grid">
+        <div class="card">
+            <div class="icon">💸</div>
+            <h3>Kaputte Werkzeuge</h3>
+            <p>€50-200 pro Fräser<br>Mehrere Fehler pro Woche</p>
+        </div>
+        <div class="card">
+            <div class="icon">🔧</div>
+            <h3>Maschinenschäden</h3>
+            <p>€500+ Reparaturkosten<br>Verlorene Produktionszeit</p>
+        </div>
+        <div class="card">
+            <div class="icon">📚</div>
+            <h3>Steile Lernkurve</h3>
+            <p>Monate bis zum Verständnis<br>von Feeds vs. Speeds</p>
+        </div>
+    </div>
+</section>
+
+<section class="solution">
+    <h2 class="section-title">Neuro-CAM: Dein AI Safety-Net</h2>
+    <div class="grid">
+        <div class="card">
+            <div class="icon">🤖</div>
+            <h3>AI Designer</h3>
+            <p>Schlägt optimale Feeds & Speeds vor basierend auf Material & Maschine</p>
+        </div>
+        <div class="card">
+            <div class="icon">🛡️</div>
+            <h3>AI Validator</h3>
+            <p>Echtzeit Safety-Checks stoppen gefährliche Parameter</p>
+        </div>
+        <div class="card">
+            <div class="icon">✅</div>
+            <h3>3D Simulation</h3>
+            <p>Preview Werkzeugweg & Kollisionserkennung visuell</p>
+        </div>
+        <div class="card">
+            <div class="icon">📤</div>
+            <h3>G-Code Export</h3>
+            <p>Fanuc, Siemens, Heidenhain - produktionsfertig</p>
+        </div>
+    </div>
+</section>
+
+<section id="how" style="background: white;">
+    <h2 class="section-title">Wie es funktioniert</h2>
+    <div class="grid">
+        <div class="card">
+            <div class="step-number">1</div>
+            <h3>Upload</h3>
+            <p>CAD-Datei (STEP/STL)<br>oder Demo-Modelle</p>
+        </div>
+        <div class="card">
+            <div class="step-number">2</div>
+            <h3>Konfigurieren</h3>
+            <p>Maschine, Material,<br>Werkzeug wählen</p>
+        </div>
+        <div class="card">
+            <div class="step-number">3</div>
+            <h3>AI Validiert</h3>
+            <p>Echtzeit Parameter-Checks<br>& Safety Score</p>
+        </div>
+        <div class="card">
+            <div class="step-number">4</div>
+            <h3>Exportieren</h3>
+            <p>G-Code für deine<br>Steuerung</p>
+        </div>
+    </div>
+</section>
+
+<section class="testimonials">
+    <h2 class="section-title">Was CNC-Lerner sagen</h2>
+    <div class="grid">
+        <div class="testimonial">
+            <p class="testimonial-text">"Das hätte mir €500 in kaputten Fräsern gespart"</p>
+            <p class="testimonial-author">— CNC Hobbyist</p>
+        </div>
+        <div class="testimonial">
+            <p class="testimonial-text">"Endlich verstehe ich die Beziehung zwischen Feeds und Speeds"</p>
+            <p class="testimonial-author">— Student, TU München</p>
+        </div>
+        <div class="testimonial">
+            <p class="testimonial-text">"Perfekt für Onboarding neuer Maker Space Mitglieder"</p>
+            <p class="testimonial-author">— Fablab Manager, Berlin</p>
+        </div>
+    </div>
+</section>
+
+<section class="pricing">
+    <h2 class="section-title">Preise</h2>
+    <div class="grid">
+        <div class="pricing-card">
+            <h3>FREE</h3>
+            <div class="price">€0</div>
+            <ul>
+                <li>5 Exports/Monat</li>
+                <li>Standard-Modelle</li>
+                <li>Community Support</li>
+            </ul>
+            <a href="https://cs7js8ple3tg.space.minimax.io" class="btn btn-primary">Jetzt starten</a>
+        </div>
+        <div class="pricing-card">
+            <h3>PRO</h3>
+            <div class="price">€9<span style="font-size: 1rem;">/Monat</span></div>
+            <ul>
+                <li>Unlimited Exports</li>
+                <li>Alle Materialien</li>
+                <li>Priority Support
+            </ul>
+            <a href="https://cs7js8ple3tg.space.minimax.io" class="btn btn-primary">14 Tage testen</a>
+        </div>
+    </div>
+</section>
+
+<section class="final-cta">
+    <h2>Bereit zu lernen ohne die €500-Lektion?</h2>
+    <p>Keine Kreditkarte. Kein Signup. Einfach lernen.</p>
+    <a href="https://cs7js8ple3tg.space.minimax.io" class="btn btn-primary">Neuro-CAM kostenlos testen</a>
+</section>
+
+<footer>
+    <p>Built with ❤️ for CNC learners | © 2025 Neuro-CAM</p>
+    <div>
+        <a href="mailto:hannes@neurocam.de">Kontakt</a>
+        <a href="https://cs7js8ple3tg.space.minimax.io">Demo</a>
+        <a href="#pricing">Preise</a>
+    </div>
+</footer>
+
+</body>
+</html>
